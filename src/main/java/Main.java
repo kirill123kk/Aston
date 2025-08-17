@@ -1,12 +1,16 @@
-import dao.Dao;
+
+import dao.UserDao;
+import dto.CreateUserDto;
 import entity.UserEntity;
+import mapper.UserMapper;
+import service.UserService;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main (String [] args){
         Scanner scanner = new Scanner(System.in);
-        Dao dao = new Dao();
+        UserService userService = new UserService(new UserDao(), new UserMapper());
 
         while (true) {
 
@@ -14,31 +18,27 @@ public class Main {
 
             switch (scanner.nextInt()) {
                 case 1 -> {
-                    UserEntity user = new UserEntity();
+                    CreateUserDto user = new CreateUserDto();
                     System.out.print("Name: "); user.setName(scanner.next());
                     System.out.print("Email: "); user.setEmail(scanner.next());
                     System.out.print("Age: "); user.setAge(scanner.nextInt());
-                    dao.save(user);
+                    userService.save(user);
                 }
                 case 2 -> {
                     System.out.print("ID: ");
-                    UserEntity user = dao.get(scanner.nextLong());
+                    UserEntity user = userService.get(scanner.nextLong());
                     System.out.println(user);
                 }
                 case 3 -> {
                     System.out.print("ID: ");
-                    Long id = scanner.nextLong();
-                    UserEntity user = dao.get(id);
-                    if (user != null) {
-                        System.out.print("New Name: "); user.setName(scanner.next());
-                        dao.update(user);
-                    }
+                    System.out.print("New Name: ");
+                    userService.update(scanner.nextLong(),scanner.next());
                 }
                 case 4 -> {
                     System.out.print("ID: ");
-                    dao.delete(scanner.nextLong());
+                    userService.delete(scanner.nextLong());
                 }
-                case 5 -> dao.getAll().forEach(System.out::println);
+                case 5 -> userService.getAll().forEach(System.out::println);
                 case 0 -> System.exit(0);
             }
         }

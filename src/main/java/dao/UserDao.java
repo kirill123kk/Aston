@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class Dao {
-    private static final Logger logger = LoggerFactory.getLogger(Dao.class);
+public class UserDao {
+    private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
     public void save(UserEntity user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
