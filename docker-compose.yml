@@ -3,10 +3,10 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15
-    container_name: user-service
+    container_name: user-com.example.UserServiceImpl.congfig.service
     restart: always
     environment:
-      POSTGRES_DB: user-service
+      POSTGRES_DB: user-com.example.UserServiceImpl.congfig.service
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
