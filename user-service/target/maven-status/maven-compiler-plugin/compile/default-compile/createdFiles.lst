@@ -1,0 +1,11 @@
+com\example\UserService\controller\UserController.class
+com\example\UserService\dto\UserDto.class
+com\example\UserService\service\KafkaProducerService.class
+com\example\UserService\service\api\UserService.class
+com\example\UserService\dto\UserEvent.class
+com\example\UserService\repository\UserRepository.class
+com\example\UserService\UserApplication.class
+com\example\UserService\mapper\UserMapper.class
+com\example\UserService\entity\UserEntity.class
+com\example\UserService\service\UserServiceImpl.class
+com\example\UserService\mapper\UserMapperImpl.class
