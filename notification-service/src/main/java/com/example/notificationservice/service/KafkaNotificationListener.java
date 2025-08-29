@@ -15,7 +15,6 @@ public class KafkaNotificationListener {
     @KafkaListener(topics = "user-events", groupId = "notification-group")
     public void listen(String messageJson) {
         ObjectMapper mapper = new ObjectMapper();
-        try {
             UserEvent event = mapper.readValue(messageJson, UserEvent.class);
             String body = switch (event.getOperation()) {
                 case "CREATE" -> "Здравствуйте! Ваш аккаунт на сайте был успешно создан.";
@@ -23,8 +22,6 @@ public class KafkaNotificationListener {
                 default -> "Неизвестная операция.";
             };
             emailService.sendEmail(event.getEmail(), "Уведомление", body);
-        } catch (Exception e) {
-            // логирование
-        }
+
     }
 }
