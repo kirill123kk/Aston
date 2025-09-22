@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   postgres:
@@ -31,3 +30,59 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  config-server:
+    build: ./config-service
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+
+  eureka-server:
+      build: ./discovery-service
+      container_name: eureka-server
+      ports:
+        - "8761:8761"
+
+
+  api-gateway:
+    build: ./gateway-service
+    container_name: api-gateway
+    depends_on:
+      - eureka-server
+      - config-server
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+
+
+  user-service:
+    build: ./user-service
+    container_name: user-service-dev
+    depends_on:
+      - postgres
+      - kafka
+      - eureka-server
+      - config-server
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+
+  notification-service:
+    build: ./notification-service
+    container_name: notification-service
+    depends_on:
+      - kafka
+      - eureka-server
+      - config-server
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
